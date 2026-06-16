@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600&family=DM+Mono:wght@400;500&display=swap');
+@import './styles/clinops.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #EEF2F7;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  color: #1C2B3A;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mono font for IDs, codes, timestamps */
+.font-mono, code, .mono {
+  font-family: 'DM Mono', monospace !important;
+}
+
+/* Sidebar active indicator */
+.nav-item-active {
+  background: rgba(255,255,255,0.10);
+  border-left: 3px solid #38BDF8;
+  padding-left: calc(0.75rem - 3px);
+}
+
+.nav-item {
+  border-left: 3px solid transparent;
+  padding-left: calc(0.75rem - 3px);
+}
+
+/* Stat card accent */
+.stat-card { position: relative; overflow: hidden; }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+}
+.stat-card-blue::before   { background: #2563EB; }
+.stat-card-teal::before   { background: #0D9488; }
+.stat-card-violet::before { background: #7C3AED; }
+.stat-card-amber::before  { background: #D97706; }
+
+/* Table rows */
+.data-table tbody tr:nth-child(even) { background: #F8FAFD; }
+.data-table tbody tr:hover { background: #EFF6FF; }
+.data-table td, .data-table th {
+  border-bottom: 1px solid #E4EAF2;
+}
+
+/* Input focus ring */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #2563EB33;
+  border-color: #2563EB !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }

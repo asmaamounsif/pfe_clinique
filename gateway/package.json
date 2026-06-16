@@ -1,0 +1,28 @@
+{
+  "name": "hospital-api-gateway",
+  "version": "1.0.0",
+  "description": "API Gateway sécurisée avec Express et Swagger pour la Plateforme de Gestion des Patients Hospitaliers",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
+    "http-proxy-middleware": "^3.0.0",
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.13.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "Architecte SIH",
+  "license": "ISC"
+}
