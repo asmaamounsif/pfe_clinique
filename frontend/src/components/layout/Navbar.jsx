@@ -6,16 +6,10 @@ import { fr } from 'date-fns/locale';
 
 const BREADCRUMBS = {
   '/admin':              ['Administration', 'Tableau de bord'],
-  '/admin/users':        ['Administration', 'Utilisateurs'],
-  '/admin/audit-logs':   ['Administration', 'Journal d\'audit'],
   '/medecin':            ['Médecin', 'Tableau de bord'],
-  '/medecin/patients':   ['Médecin', 'Patients'],
-  '/medecin/consultations': ['Médecin', 'Consultations'],
-  '/medecin/prescriptions': ['Médecin', 'Ordonnances'],
   '/infirmier':          ['Infirmier', 'Tableau de bord'],
-  '/patient':            ['Patient', 'Mon espace'],
-  '/patient/dossier':    ['Patient', 'Mon dossier médical'],
-  '/patient/rdv':        ['Patient', 'Rendez-vous'],
+  '/secretaire':         ['Secrétaire', 'Tableau de bord'],
+  '/patient':            ['Patient', 'Tableau de bord'],
 };
 
 const Navbar = () => {

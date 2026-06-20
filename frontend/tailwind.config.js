@@ -5,9 +5,28 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['DM Mono', 'ui-monospace', 'monospace'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
+        // Semantic ClinOps Variables mapped to Tailwind
+        base: 'var(--bg-base)',
+        surface: 'var(--bg-surface)',
+        elevated: 'var(--bg-elevated)',
+        card: 'var(--bg-card)',
+        hover: 'var(--bg-hover)',
+        border: 'var(--border)',
+        'border-light': 'var(--border-light)',
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        dim: 'var(--text-dim)',
+        'accent-blue': 'var(--accent-blue)',
+        'accent-teal': 'var(--accent-teal)',
+        'accent-indigo': 'var(--accent-indigo)',
+        'priority-urgent': 'var(--priority-urgent)',
+        'priority-waiting': 'var(--priority-waiting)',
+        'priority-stable': 'var(--priority-stable)',
+        'priority-new': 'var(--priority-new)',
+
         // Sidebar / brand
         navy:   { DEFAULT: '#0F2744', 700: '#142D50', 600: '#1A3A63', 500: '#1E4A7A', 400: '#2A5F9E', 300: '#3B7BC4', 200: '#7AAED9', 100: '#BDD6EC', 50: '#EBF3FA' },
         // Accent sky-blue for active states
@@ -15,7 +34,8 @@ export default {
         // Medical semantic
         teal:   { DEFAULT: '#0D9488', light: '#CCFBF1', dark: '#0F766E' },
         // Backgrounds
-        surface: { DEFAULT: '#FFFFFF', muted: '#F8FAFD', page: '#EEF2F7', border: '#E4EAF2' },
+        // (surface kept above, adding muted/page separately)
+        muted: '#F8FAFD', page: '#EEF2F7',
         // Text
         ink:    { DEFAULT: '#1C2B3A', secondary: '#4A6077', muted: '#8FA3B8' },
       },

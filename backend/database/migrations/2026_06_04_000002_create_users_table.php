@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->foreignId('role_id')->constrained('roles')->onDelete('restrict');
-            $table->string('phone')->nullable();
+            $table->string('phone')->nullable()->index(); // Indexing phone for fast lookups
             $table->string('specialty')->nullable();
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes(); // Healthcare Rule: Never permanently delete staff records
         });
     }
 

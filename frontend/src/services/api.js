@@ -33,20 +33,12 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response ? error.response.status : null;
 
-    if (status === 401) {
-      // 401 Unauthorized : Le token a expiré ou est invalide
-      // On vide le stockage local et on redirige vers l'authentification
-      localStorage.removeItem('hospital_token');
-      localStorage.removeItem('hospital_user');
-      
-      // Évite les boucles infinies de redirection si on est déjà sur la page de connexion
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login?expired=true';
-      }
-    } else if (status === 403) {
+    if (status === 403) {
       // 403 Forbidden : Droits insuffisants (RBAC bloqué par le Gateway ou Laravel)
       window.location.href = '/unauthorized';
     }
+
+    // 401 is now handled gracefully inside useApi.js which has access to the useAuth hook context.
 
     return Promise.reject(error);
   }

@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      // Redirection des appels /api vers le serveur API Gateway Node.js
+      // Redirection des appels /api vers le backend Laravel
       '/api': {
-        target: 'http://localhost:3050',
+        target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
       }

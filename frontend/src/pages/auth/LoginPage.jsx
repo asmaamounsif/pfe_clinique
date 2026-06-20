@@ -59,7 +59,7 @@ const LoginPage = () => {
             </svg>
           </div>
           <div>
-            <div style={{ color: '#F0F6FF', fontSize: 16, fontWeight: 600, letterSpacing: '0.01em' }}>Clinique Al Shifa</div>
+            <div style={{ color: '#F0F6FF', fontSize: 16, fontWeight: 600, letterSpacing: '0.01em' }}>Clinique Mounsif</div>
             <div style={{ color: '#3B7BC4', fontSize: 10.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase' }}>Casablanca</div>
           </div>
         </div>
@@ -91,7 +91,7 @@ const LoginPage = () => {
 
         {/* Footer */}
         <div style={{ fontSize: 11, color: '#3E5E7A', position: 'relative', zIndex: 1 }}>
-          © {new Date().getFullYear()} Clinique Al Shifa — Tous droits réservés
+          © {new Date().getFullYear()} Clinique Mounsif — Tous droits réservés
         </div>
       </div>
 

@@ -1,24 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import useAuth from './hooks/useAuth';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Layout from './components/layout/Layout';
 
-// Importation des pages (les squelettes ou implémentations réelles)
-import LoginPage from './pages/auth/LoginPage';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AuditLogs from './pages/admin/AuditLogs';
-import PatientsList from './pages/medecin/PatientsList';
-import PatientDetail from './pages/medecin/PatientDetail';
-import NewConsultation from './pages/medecin/NewConsultation';
-import MedecinDashboard from './pages/medecin/MedecinDashboard';
-import InfirmierDashboard from './pages/infirmier/InfirmierDashboard';
-import PatientDashboard from './pages/patient/PatientDashboard';
-import SecretaireDashboard from './pages/secretaire/SecretaireDashboard';
-import AgendaJour from './pages/secretaire/AgendaJour';
-import GestionRdv from './pages/secretaire/GestionRdv';
-import PrendreRdv from './pages/patient/PrendreRdv';
+// Loading Spinner for Suspense
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center h-screen bg-[var(--color-bg-secondary)]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--color-primary)]"></div>
+  </div>
+);
+
+// Lazy Imports
+const LoginPage = React.lazy(() => import('./pages/auth/LoginPage'));
+const BlankDashboard = React.lazy(() => import('./pages/BlankDashboard'));
 
 // Page 403 d'accès non autorisé
 const UnauthorizedPage = () => (
@@ -36,12 +32,6 @@ const UnauthorizedPage = () => (
     </div>
   </div>
 );
-
-// Composants fictifs temporaires pour les routes secondaires
-const UserManagement = () => <div className="p-6 bg-white rounded shadow"><h2 className="text-xl font-bold text-medical-800 mb-4">Gestion des Utilisateurs (Administrateur)</h2><p className="text-gray-600">Module de gestion des utilisateurs hospitaliers.</p></div>;
-const Prescriptions = () => <div className="p-6 bg-white rounded shadow"><h2 className="text-xl font-bold text-medical-800 mb-4">Historique des Ordonnances</h2><p className="text-gray-600">Liste globale des prescriptions du service.</p></div>;
-const MonDossier = () => <div className="p-6 bg-white rounded shadow"><h2 className="text-xl font-bold text-medical-800 mb-4">Mon Dossier Médical</h2><p className="text-gray-600">Consultation de vos antécédents, examens et prescriptions.</p></div>;
-const MesRendezVous = () => <div className="p-6 bg-white rounded shadow"><h2 className="text-xl font-bold text-medical-800 mb-4">Mes Rendez-vous</h2><p className="text-gray-600">Historique et planification de vos consultations.</p></div>;
 
 // Redirection intelligente en racine "/" selon le rôle de l'utilisateur connecté
 const RootRedirect = () => {
@@ -65,49 +55,55 @@ const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          {/* Routes Publiques */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            {/* Routes Publiques */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-          {/* Redirection Racine */}
-          <Route path="/" element={<RootRedirect />} />
+            {/* Redirection Racine */}
+            <Route path="/" element={<RootRedirect />} />
 
-          {/* Routes Protégées avec Layout (Sidebar + Navbar) */}
-          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            
-            {/* Administration */}
-            <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><UserManagement /></ProtectedRoute>} />
-            <Route path="/admin/audit-logs" element={<ProtectedRoute allowedRoles={['admin']}><AuditLogs /></ProtectedRoute>} />
+            {/* Routes Protégées avec Layout (Sidebar + Outlet) */}
+            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              
+              {/* Shared / Messaging */}
+              <Route path="/messages" element={<ProtectedRoute allowedRoles={['admin', 'medecin', 'secretaire', 'patient', 'infirmier']}><BlankDashboard /></ProtectedRoute>} />
 
-            {/* Médecine */}
-            <Route path="/medecin" element={<ProtectedRoute allowedRoles={['medecin']}><MedecinDashboard /></ProtectedRoute>} />
-            <Route path="/medecin/patients" element={<ProtectedRoute allowedRoles={['medecin']}><PatientsList /></ProtectedRoute>} />
-            <Route path="/medecin/patients/:id" element={<ProtectedRoute allowedRoles={['medecin']}><PatientDetail /></ProtectedRoute>} />
-            <Route path="/medecin/patients/:id/new-consultation" element={<ProtectedRoute allowedRoles={['medecin']}><NewConsultation /></ProtectedRoute>} />
-            <Route path="/medecin/prescriptions" element={<ProtectedRoute allowedRoles={['medecin']}><Prescriptions /></ProtectedRoute>} />
+              {/* Administration */}
+              <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/admin/clinical-records" element={<ProtectedRoute allowedRoles={['admin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/admin/patient-flow" element={<ProtectedRoute allowedRoles={['admin']}><BlankDashboard /></ProtectedRoute>} />
 
-            {/* Secrétariat */}
-            <Route path="/secretaire" element={<ProtectedRoute allowedRoles={['secretaire']}><SecretaireDashboard /></ProtectedRoute>} />
-            <Route path="/secretaire/patients" element={<ProtectedRoute allowedRoles={['secretaire']}><PatientsList /></ProtectedRoute>} />
-            <Route path="/secretaire/agenda" element={<ProtectedRoute allowedRoles={['secretaire']}><AgendaJour /></ProtectedRoute>} />
-            <Route path="/secretaire/gestion" element={<ProtectedRoute allowedRoles={['secretaire']}><GestionRdv /></ProtectedRoute>} />
+              {/* Médecine */}
+              <Route path="/medecin" element={<ProtectedRoute allowedRoles={['medecin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/medecin/patients" element={<ProtectedRoute allowedRoles={['medecin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/medecin/patients/:id" element={<ProtectedRoute allowedRoles={['medecin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/medecin/patients/:id/new-consultation" element={<ProtectedRoute allowedRoles={['medecin']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/medecin/prescriptions" element={<ProtectedRoute allowedRoles={['medecin']}><BlankDashboard /></ProtectedRoute>} />
 
-            {/* Infirmier */}
-            <Route path="/infirmier" element={<ProtectedRoute allowedRoles={['infirmier']}><InfirmierDashboard /></ProtectedRoute>} />
+              {/* Secrétariat */}
+              <Route path="/secretaire" element={<ProtectedRoute allowedRoles={['secretaire']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/secretaire/patients" element={<ProtectedRoute allowedRoles={['secretaire']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/secretaire/agenda" element={<ProtectedRoute allowedRoles={['secretaire']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/secretaire/gestion" element={<ProtectedRoute allowedRoles={['secretaire']}><BlankDashboard /></ProtectedRoute>} />
 
-            {/* Patients */}
-            <Route path="/patient" element={<ProtectedRoute allowedRoles={['patient']}><PatientDashboard /></ProtectedRoute>} />
-            <Route path="/patient/profile/:id" element={<ProtectedRoute allowedRoles={['patient']}><MonDossier /></ProtectedRoute>} />
-            <Route path="/patient/appointments" element={<ProtectedRoute allowedRoles={['patient']}><MesRendezVous /></ProtectedRoute>} />
-            <Route path="/prendre-rdv" element={<ProtectedRoute allowedRoles={['patient']}><PrendreRdv /></ProtectedRoute>} />
+              {/* Infirmier */}
+              <Route path="/infirmier" element={<ProtectedRoute allowedRoles={['infirmier']}><BlankDashboard /></ProtectedRoute>} />
 
-          </Route>
+              {/* Patients */}
+              <Route path="/patient" element={<ProtectedRoute allowedRoles={['patient']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/patient/profile/:id" element={<ProtectedRoute allowedRoles={['patient']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/patient/appointments" element={<ProtectedRoute allowedRoles={['patient']}><BlankDashboard /></ProtectedRoute>} />
+              <Route path="/prendre-rdv" element={<ProtectedRoute allowedRoles={['patient']}><BlankDashboard /></ProtectedRoute>} />
 
-          {/* Fallback 404 automatique vers la racine */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            </Route>
+
+            {/* Fallback 404 automatique vers la racine */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </AuthProvider>
     </BrowserRouter>
   );

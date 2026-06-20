@@ -104,18 +104,24 @@ export const AuthProvider = ({ children }) => {
 
   // Vérification de rôle (RBAC) - Accepte un string ou un tableau de rôles
   const hasRole = (roles) => {
-    if (!user || !user.role) return false;
+    if (!user) return false;
+    const userRole = user?.role?.slug;
+    if (!userRole) return false;
+
     if (Array.isArray(roles)) {
-      return roles.includes(user.role.slug);
+      return roles.includes(userRole);
     }
-    return user.role.slug === roles;
+    return userRole === roles;
   };
 
   // Vérification de permissions (extensible si des privilèges précis sont configurés)
   const hasPermission = (permission) => {
     if (!user) return false;
+    
+    const userRole = user?.role?.slug || 'patient';
+
     // Par défaut si admin, tout est permis
-    if (user.role?.slug === 'admin') return true;
+    if (userRole === 'admin') return true;
     
     // Mappage simple Rôle -> Droits pour démonstration
     const permissionsMap = {
@@ -125,7 +131,6 @@ export const AuthProvider = ({ children }) => {
       patient: ['view-own-profile', 'view-own-prescriptions', 'view-own-appointments']
     };
 
-    const userRole = user.role?.slug;
     const allowedPermissions = permissionsMap[userRole] || [];
     return allowedPermissions.includes(permission);
   };

@@ -18,27 +18,18 @@ const ICONS = {
 const ROLE_NAV = {
   admin: [
     { path: '/admin',             label: 'Tableau de bord', icon: ICONS.dashboard },
-    { path: '/admin/users',       label: 'Utilisateurs',    icon: ICONS.users     },
-    { path: '/admin/audit-logs',  label: 'Journal d\'audit', icon: ICONS.audit    },
   ],
   medecin: [
     { path: '/medecin',              label: 'Tableau de bord', icon: ICONS.dashboard },
-    { path: '/medecin/patients',     label: 'Patients',        icon: ICONS.patients  },
-    { path: '/medecin/consultations',label: 'Consultations',   icon: ICONS.consult   },
-    { path: '/medecin/prescriptions',label: 'Ordonnances',     icon: ICONS.prescript },
   ],
   infirmier: [
     { path: '/infirmier',          label: 'Tableau de bord', icon: ICONS.dashboard },
-    { path: '/infirmier/patients', label: 'Patients',        icon: ICONS.patients  },
   ],
   secretaire: [
     { path: '/secretaire',          label: 'Tableau de bord', icon: ICONS.dashboard },
-    { path: '/secretaire/patients', label: 'Patients',        icon: ICONS.patients  },
   ],
   patient: [
-    { path: '/patient',            label: 'Mon espace',      icon: ICONS.dashboard },
-    { path: '/patient/dossier',    label: 'Mon dossier',     icon: ICONS.dossier   },
-    { path: '/patient/rdv',        label: 'Rendez-vous',     icon: ICONS.calendar  },
+    { path: '/patient',            label: 'Tableau de bord', icon: ICONS.dashboard },
   ],
 };
 
@@ -75,7 +66,7 @@ const Sidebar = () => {
             </svg>
           </div>
           <div>
-            <div style={{ color: '#F0F6FF', fontSize: 13, fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.2 }}>Clinique Al Shifa</div>
+            <div style={{ color: '#F0F6FF', fontSize: 13, fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.2 }}>Clinique Mounsif</div>
             <div style={{ color: '#5B8DB8', fontSize: 10, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 1 }}>Casablanca</div>
           </div>
         </div>
